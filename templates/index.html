@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Repo Changes</title>
+    <style>
+        #events {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .event {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>GitHub Repo Latest Events</h1>
+    <div id="events">Loading...</div>
+    <script>
+        function fetchEvents() {
+            fetch('/api/get-latest-events')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const eventsDiv = document.getElementById('events');
+                    eventsDiv.innerHTML = ''; // Clear the previous content
+    
+                    if (data.events && data.events.length > 0) {
+                        data.events.forEach(event => {
+                            const eventDiv = document.createElement('div');
+                            eventDiv.classList.add('event');
+    
+                            // Create formatted message for different event types
+                            let message = '';
+                            if (event.event === 'push') {
+                                message = `${event.message}`;
+                            } else if (event.event === 'pull_request') {
+                                message = `${event.message}`;
+                            } else if (event.event === 'merge') {
+                                message = `${event.message}`;
+                            }
+    
+                            eventDiv.textContent = message;
+                            eventsDiv.appendChild(eventDiv);
+                        });
+                    } else {
+                        eventsDiv.textContent = 'No recent events found.';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching events:', error);
+                    document.getElementById('events').innerHTML = `<p style="color: red;">Failed to load events: ${error.message}</p>`;
+                });
+        }
+    
+        // Fetch events every 15 seconds
+        setInterval(fetchEvents, 15000);
+    
+        // Fetch events on page load
+        fetchEvents();
+    </script>
+    
+</body>
+</html>
