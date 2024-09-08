@@ -39,7 +39,7 @@ python app.py
 <![alt](images/json.png)>
 
 # GitHub events in UI
-<![alt](images/UI.png.png)>
+<![alt](images/UI.png)>
 
 # Ngrok Teminal 
 <![alt](images/command.png)>
